@@ -1,0 +1,21 @@
+services:
+  notebook:
+    build: .
+    image: conrad-class-sandbox:${TAG:-latest}
+    ports:
+      - 9000:8888
+    environment: &notebook_env
+      LOCATION: notebook
+    entrypoint:
+      - jupyter
+      - lab
+      - --ServerApp.port=8888
+      - --ServerApp.ip=0.0.0.0
+      - --allow-root
+      - --ServerApp.token=
+      - --ServerApp.notebook_dir='/analytics/notebooks'
+
+    volumes:
+      - type: bind
+        source: ./notebooks/
+        target: /analytics/notebooks
